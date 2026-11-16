@@ -109,3 +109,71 @@ The document set was committed on `feat/chromium-engine-migration` as
 ### Gate
 
 Phase 0 is **complete pending architecture review**. Phase 1 is not started.
+
+## 2026-11-16 — Phase 1 start: toolchain and foundation scaffold
+
+### Approval
+
+Architecture was approved on 2026-11-16 and depot_tools installation was
+authorized. Phase 1 is now **in progress**.
+
+### Chromium pin
+
+| Item | Value |
+| --- | --- |
+| Channel | Stable |
+| Version | `157.0.8103.78` |
+| Milestone | 157 |
+| Release tag commit | `4b3d0dabb8250b6f152d2d85d79e7706e309d087` |
+| Branch | `refs/branch-heads/8103` |
+| Branch head at pin time | `b73459700a57da23a8ae9f624e6093daa04e9a71` |
+| Main branch position | `1717349` |
+
+`build/chromium/pin.json` is the source of truth. The exact release tag is
+pinned, not the moving branch head.
+
+### Toolchain
+
+- `depot_tools` cloned to `/data/workspace/depot_tools`.
+- `gclient`, `fetch` and `autoninja` are available from depot_tools.
+- `gn` installed as `/usr/bin/gn` (`1000 (487f835)`).
+- `ninja` installed as `/usr/bin/ninja` (`1.12.1`).
+- `depot_tools` added to `PATH` in `~/.bashrc` and `~/.profile`.
+
+### Scaffold
+
+- `build/chromium/sync.py`: check, fetch, patch, copy and build driver.
+- `build/chromium/args/linux-dev.gn`: Linux development GN args.
+- `build/chromium/check_model.sh`: dependency-free model test.
+- `patches/chromium/`: reviewed patch staging area.
+- `secant/`: product-layer GN skeleton.
+- `secant/browser/tab_model.*`: initial `SecantTabModel` and tests.
+- `docs/migration/phase-1/foundation-spike.md`: Phase 1 status and blockers.
+
+### Validation
+
+- `python3 -m py_compile build/chromium/sync.py`: pass.
+- `bash -n build/chromium/check_model.sh`: pass.
+- `build/chromium/check_model.sh`: pass.
+- `gn format` on `secant/**/BUILD.gn`: pass.
+- `python3 build/chromium/sync.py --check`: expected fail, 7.2 GiB free
+  versus 150 GiB required.
+- relative Markdown links: 0 missing.
+
+### Blocker
+
+This sandbox has 7.2 GiB free on `/data` and 9.5 GiB on `/`. A Chromium
+checkout plus build needs roughly 150 GiB. The pin, sync driver and model can
+be validated here, but the Chromium fetch and build gate needs a larger runner
+with a warm build cache and the platform toolchains.
+
+### Commit
+
+Phase 1 scaffold committed as `d96a49e67`
+(`feat: scaffold Chromium Phase 1 foundation`).
+
+### Gate
+
+Phase 1 is **in progress**. It is not complete until the build, shell, tab,
+session, isolation, performance and accessibility evidence in
+[phase-1/foundation-spike.md](../phase-1/foundation-spike.md) is recorded.
