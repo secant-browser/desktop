@@ -1,0 +1,183 @@
+id,area,feature,zen_implementation,firefox_dependencies,chromium_equivalent,status,reference_tests,secant_test_coverage,known_differences
+CORE-001,Core,Tab creation,Firefox tabbrowser + Zen tab patches,gBrowser; tabContainer; SessionStore,Chromium TabStripModel + SecantTabModel,inventoried,tests/tabs; tests/mochitests/tabbrowser,none (Phase 1+),Not yet assessed
+CORE-002,Core,Tab closing,Firefox tabbrowser + Zen tab patches,gBrowser; SessionStore; TabClose events,Chromium TabStripModel + TabRestoreService,inventoried,tests/tabs,none (Phase 1+),Not yet assessed
+CORE-003,Core,Tab switching,Firefox tabbrowser + AsyncTabSwitcher,gBrowser; AsyncTabSwitcher,Chromium WebContents activation + SecantTabModel,inventoried,tests/tabs,none (Phase 1+),Not yet assessed
+CORE-004,Core,Tab restoration / undo close,Firefox SessionStore + ZenSessionManager,gBrowser; SessionStore; TabRestoreService,Chromium TabRestoreService + SecantSessionMetadata,inventoried,tests/mochitests/sessionstore; tests/spaces,none (Phase 1+),Restore semantics and closed-tab UI differ
+CORE-005,Core,Tab pinning,gBrowser.pinTab + ZenPinnedTabManager,gBrowser; SessionStore; PlacesUtils,SecantTabModel pinned state + WebUI,inventoried,tests/pinned,none (Phase 1+),Pinned-tab unload/reset semantics are Zen-specific
+CORE-006,Core,Tab duplication,gBrowser.duplicateTab,gBrowser; SessionStore,Chromium duplicate navigation entries + SecantTabModel,inventoried,tests/split_view; tests/tabs,none (Phase 1+),Not yet assessed
+CORE-007,Core,Tab grouping,Firefox tab groups + Zen folders,gBrowser; MozTabbrowserTabGroup; SessionStore,SecantTabModel groups + WebUI,inventoried,tests/folders; tests/mochitests/sessionstore,none (Phase 1+),Chromium tab groups are not Firefox tab groups
+CORE-008,Core,Tab drag and reorder,Firefox tab drag/drop + Zen patches,gBrowser; tabContainer; drag service,Views drag/drop + WebUI vertical strip,inventoried,tests/tabs; tests/folders,none (Phase 1+),Vertical drag/drop geometry is custom
+CORE-009,Core,Tab multi-select,Firefox selectedTabs + Zen patches,gBrowser.selectedTabs,SecantTabModel selection + WebUI,inventoried,tests/tabs,none (Phase 1+),Not yet assessed
+CORE-010,Core,Tab unload / discard,Firefox TabUnloader + Zen patches,gBrowser; SessionStore,Chromium tab discard + SecantTabModel,inventoried,tests/pinned; tests/mochitests/tabbrowser,none (Phase 1+),Zen unload/reset policy is product-specific
+CORE-011,Core,Navigation back/forward/reload,Firefox browser + docshell patches,gBrowser; docshell; SessionStore,Chromium NavigationController,inventoried,tests/mochitests/backforward,none (Phase 1+),Not yet assessed
+CORE-012,Core,Address bar and search,Firefox urlbar + Zen patches,gURLBar; UrlbarProviders; Services.prefs,Chromium Omnibox + Secant WebUI omnibox,inventoried,tests/urlbar; tests/ub-actions,none (Phase 1+),Provider model and result ranking differ
+CORE-013,Core,History,Firefox Places,gBrowser; PlacesUtils; places.sqlite,Chromium HistoryService,inventoried,tests/library; tests/mochitests/backforward,none (Phase 1+),Schema and migration differ
+CORE-014,Core,Bookmarks,Firefox Places + Zen workspace bookmarks,PlacesUtils; places.sqlite; PlacesUIUtils,Chromium BookmarkModel,inventoried,tests/spaces; tests/migration,none (Phase 1+),Workspace bookmark metadata is custom
+CORE-015,Core,Downloads,Firefox Downloads + Zen animation,Downloads API; nsITransfer; Places,Chromium DownloadManager,inventoried,tests/library,none (Phase 1+),Animation and library UI are custom
+CORE-016,Core,Context menus,XUL menupopup + Zen patches,nsContextMenu; XUL; gBrowser,Views menus + WebUI context menus,inventoried,tests/ui; tests/mochitests/none,none (Phase 1+),XUL menu structure must be recreated
+CORE-017,Core,Keyboard shortcuts,XUL keysets + Zen kbs,Zoom; ShortcutUtils; XUL,Chromium accelerators + Secant key service,inventoried,tests/kbs,none (Phase 1+),Global shortcut scope differs
+CORE-018,Core,Find in page,Firefox findbar,findbar XUL widget,Chromium find-in-page,inventoried,tests/mochitests/find,none (Phase 1+),UI differs
+CORE-019,Core,Zoom,Firefox zoom + Zen patches,gBrowser; zoom manager; Services.prefs,Chromium zoom controller,inventoried,tests/mochitests/zoom,none (Phase 1+),Site-specific zoom semantics differ
+CORE-020,Core,Print,Firefox print UI + patches,nsIPrintSettings; print preview XUL,Chromium print preview,inventoried,tests/mochitests/print,none (Phase 1+),Dialog and preview differ
+CORE-021,Core,Reader mode,Firefox Reader Mode,ReaderMode.sys.mjs; about:reader,Chromium Read Anything/in-house reader,port-pending,tests/mochitests/readermode,none (Phase 1+),Chromium has no exact built-in reader equivalent
+CORE-022,Core,Page info / site identity,Firefox identity block + Zen site panel,nsIPermissionManager; XUL; identity panel,Chromium Page Info + Secant site panel,inventoried,tests/site_control; tests/mochitests/pageinfo,none (Phase 1+),Panel layout and permissions differ
+CORE-023,Core,Full screen,Firefox fullscreen + Zen patches,browser-fullScreenAndPointerLock,Chromium fullscreen controller,inventoried,tests/mochitests/fullscreen,none (Phase 1+),Not yet assessed
+CORE-024,Core,Picture-in-picture,Firefox PiP + Zen patches,PictureInPicture.sys.mjs; XUL player,Chromium PiP/in-house player,port-pending,tests/mochitests/pip,none (Phase 1+),Player UI and controls differ
+CORE-025,Core,Search engines,Firefox search service,SearchService; OpenSearch,Chromium TemplateURLService,inventoried,tests/urlbar,none (Phase 1+),Engine list and keyword handling differ
+CORE-026,Core,New tab page,Firefox newtab + Zen welcome,ActivityStream; about:newtab,Chromium New Tab Page WebUI,inventoried,tests/welcome,none (Phase 1+),Zen welcome and newtab are custom
+CORE-027,Core,Autofill and passwords,Firefox autofill + logins,FormAutofill; LoginManager; key4.db,Chromium Autofill + Password Manager,inventoried,tests/mochitests/autofill,none (Phase 1+),Credential store and sync differ
+CORE-028,Core,Notifications,Firefox alerts + Zen toasts,AlertsService; XUL; PopupNotifications,Chromium notifications + WebUI toasts,inventoried,tests/mochitests/alerts; tests/ui,none (Phase 1+),Native notification behavior differs
+CORE-029,Core,Safe browsing,Firefox Safe Browsing,SafeBrowsing; remote settings,Chromium Safe Browsing,inventoried,tests/mochitests/safebrowsing,none (Phase 1+),Service keys and policy differ
+CORE-030,Core,Certificate management,Firefox cert manager,NSS; cert viewer; enterprise roots,Chromium cert manager + Chrome Root Store,inventoried,tests/security,none (Phase 1+),Root store and UI differ
+CORE-031,Core,Proxy and network settings,Firefox network prefs,Necko; proxy prefs; DNS/TRR,Chromium network service settings,inventoried,tests/mochitests/networking,none (Phase 1+),Proxy/DNS behavior differs
+CORE-032,Core,Crash recovery,Firefox sessionstore recovery,SessionStore; crash reporter,Chromium crash restore + session service,inventoried,tests/mochitests/sessionstore,none (Phase 1+),Recovery UX differs
+CORE-033,Core,PDF viewer,Firefox pdf.js,pdf.js; about:pdf,Chromium PDF viewer,inventoried,tests/mochitests/pdf,none (Phase 1+),Viewer features differ
+CORE-034,Core,Media playback / codecs / DRM,Firefox media + EME,Gecko media; EME; Widevine,Chromium media + EME,blocked,tests/mochitests/media; tests/media,none (Phase 1+),Codec and Widevine licensing/redistribution unresolved
+CORE-035,Core,Accessibility,Firefox accessibility + Zen patches,Gecko a11y; AT-SPI/IA2/UIA,Chromium accessibility,inventoried,tests/mochitests/accessibility,none (Phase 1+),Tree and platform bridges differ
+CORE-036,Core,Localization,Firefox l10n + Zen locales,fluent; locale packs,Chromium l10n + Secant locales,asset-ready,tests/mochitests/l10n,none (Phase 1+),FTL to Chromium format conversion required
+CORE-037,Core,Updates,Zen updater + MAR,UpdateUtils; MAR; updates.zen-browser.app,Chromium update service or Secant updater,inventoried,tests/mochitests/update,none (Phase 1+),Update infrastructure must be replaced
+CORE-038,Core,Default browser / protocol handlers,Firefox shell integration,nsIShellService; Windows registry; macOS LaunchServices,Chromium shell integration,inventoried,tests/mochitests/shell,none (Phase 1+),Platform registration differs
+CORE-039,Core,Tab search / switch UI,Firefox ctrlTab + Zen patches,ctrlTab; gBrowser,Chromium tab search + WebUI,inventoried,tests/tabs,none (Phase 1+),Zen pending/essential rules are custom
+CORE-040,Core,Window and tab session restore,Firefox SessionStore,SessionStore; JSONFile,Chromium SessionService + sidecar,inventoried,tests/mochitests/sessionstore,none (Phase 1+),Data format migration required
+BRW-001,Browser,Profiles,Firefox profile service + Zen UI,nsToolkitProfileService; profile picker,Chromium ProfileManager + profile picker,inventoried,tests/migration,none (Phase 1+),Per-window/profile semantics differ
+BRW-002,Browser,Private browsing,Firefox private windows + Zen spaces,PrivateBrowsingUtils; SessionStore,Chromium OffTheRecord profile,inventoried,tests/spaces; tests/mochitests/sessionstore,none (Phase 1+),Private workspace semantics are custom
+BRW-003,Browser,Session persistence,Firefox SessionStore + ZenSessionManager,SessionStore; JSONFile; Places,Chromium SessionService + SecantSessionMetadata,inventoried,tests/mochitests/sessionstore,none (Phase 1+),Session schema migration required
+BRW-004,Browser,Cookies,Firefox cookie service,nsICookieService; cookies.sqlite,Chromium CookieStore,inventoried,tests/mochitests/cookies,none (Phase 1+),Container scoping unresolved
+BRW-005,Browser,Permissions,Firefox permission manager,nsIPermissionManager; permissions.sqlite,Chromium PermissionManager,inventoried,tests/site_control,none (Phase 1+),Workspace-scoped permissions unresolved
+BRW-006,Browser,Site settings and data clearing,Zen site data panel + Firefox,HostPermissions; permission manager; quota manager,Chromium HostContentSettingsMap + Site Settings,inventoried,tests/site_control,none (Phase 1+),Per-workspace data clearing unresolved
+BRW-007,Browser,Storage,Firefox quota/storage,QuotaManager; IndexedDB; localStorage,Chromium storage service + partitions,inventoried,tests/mochitests/storage,none (Phase 1+),Partition model differs
+BRW-008,Browser,Extension management,Firefox AddonManager + about:addons,AddonManager; ExtensionsUI; Blocklist,Chromium ExtensionService + chrome://extensions,inventoried,tests/mochitests/addons,none (Phase 1+),Add-on formats and signing differ
+BRW-009,Browser,Extension compatibility,Firefox WebExtensions + Zen patches,ExtensionParent; ext-tabs; ext-browser; ext-runtime,Chromium extension APIs + shims,blocked,tests/mochitests/extensions,none (Phase 1+),Firefox-only APIs cannot be fully preserved
+BRW-010,Browser,Developer tools,Firefox DevTools,DevTools frontend; devtools protocol,Chromium DevTools + CDP,inventoried,tests/mochitests/devtools,none (Phase 1+),Panel set and protocol differ
+BRW-011,Browser,Preferences,Firefox about:preferences + Zen patches,Preferences XUL/HTML; Services.prefs,Chromium settings WebUI + PrefService,inventoried,tests/mochitests/preferences,none (Phase 1+),193 Zen prefs need mapping
+BRW-012,Browser,Sync,Firefox Sync + Zen Spaces Sync,FxAccounts; Sync; ContextualIdentityService,Chromium Sync or Secant sync service,blocked,tests/device_sync; tests/mochitests/sync,none (Phase 1+),Firefox Sync cannot be reused
+BRW-013,Browser,Profile migration,Zen migration wizard,Firefox migration; Places; ContextualIdentityService,Chromium profile importer + Secant importer,port-pending,tests/migration,none (Phase 1+),Firefox/Arc/Dia data mapping required
+BRW-014,Browser,Extension store and policy,Firefox AMO/signing,AddonManager; Blocklist,Chrome Web Store or Secant store,blocked,tests/mochitests/addons,none (Phase 1+),Store terms and signing policy unresolved
+BRW-015,Browser,Enterprise policy,Firefox policies,Enterprise Policies engine,Chromium policy engine,port-pending,tests/mochitests/policies,none (Phase 1+),Policy names and scopes differ
+BRW-016,Browser,Download protection,Firefox Safe Browsing download checks,SafeBrowsing; downloads,Chromium download protection,inventoried,tests/mochitests/safebrowsing,none (Phase 1+),Service integration differs
+BRW-017,Browser,Cookie and storage partitioning,Firefox containers + first-party isolation,ContextualIdentityService; cookie service,Chromium storage partitions,blocked,tests/container_essentials; tests/spaces,none (Phase 1+),No direct lightweight container equivalent
+BRW-018,Browser,History service,Firefox Places,PlacesUtils; places.sqlite,Chromium HistoryService,inventoried,tests/library,none (Phase 1+),Import and favicon mapping required
+BRW-019,Browser,Bookmark model,Firefox Places,PlacesUtils; bookmarks,Chromium BookmarkModel,inventoried,tests/spaces; tests/migration,none (Phase 1+),Workspace folder metadata is custom
+BRW-020,Browser,Favicon service,Firefox Places favicons,PlacesUtils.favicons,Chromium favicon service,inventoried,tests/library,none (Phase 1+),Cache and storage differ
+BRW-021,Browser,Form autofill,Firefox FormAutofill,FormAutofill; address book,Chromium Autofill,inventoried,tests/mochitests/autofill,none (Phase 1+),Data model differs
+BRW-022,Browser,Password manager,Firefox LoginManager,LoginManager; key4.db,Chromium Password Manager,inventoried,tests/mochitests/passwords,none (Phase 1+),Credential migration and encryption differ
+BRW-023,Browser,Incognito workspace,Zen private spaces,PrivateBrowsingUtils; SessionStore,Chromium OffTheRecord context,port-pending,tests/spaces,none (Phase 1+),Workspace lifecycle differs
+BRW-024,Browser,Window sync service,ZenWindowSync,SessionStore; Services.wm,Secant window sync service,port-pending,tests/window_sync,none (Phase 1+),Transport and conflict rules are custom
+BRW-025,Browser,Spaces sync service,ZenSpacesSync,Firefox Sync; ContextualIdentityService,Secant sync service,blocked,tests/device_sync,none (Phase 1+),Firefox Sync dependency cannot carry over
+BRW-026,Browser,Session backup,ZenSessionManager backups,JSONFile; profile dir,Secant session backup service,inventoried,tests/mochitests/sessionstore,none (Phase 1+),Backup format and cadence differ
+BRW-027,Browser,Crash reporting,Firefox crash reporter,CrashReporter; minidump,Chromium crash reporting,inventoried,tests/mochitests/crash,none (Phase 1+),Server and consent flow differ
+BRW-028,Browser,Policy for unsigned add-ons,Zen config allows unsigned scopes,MOZ_REQUIRE_SIGNING; AddonManager,Chromium extension policy,blocked,tests/mochitests/addons,none (Phase 1+),Chromium signing model differs
+BRW-029,Browser,Search engine management,Firefox search settings,SearchService; OpenSearch,Chromium TemplateURLService,inventoried,tests/urlbar,none (Phase 1+),Engine defaults differ
+BRW-030,Browser,Private data clearing,Firefox clear data UI,Sanitizer; permission manager,Chromium clear browsing data,inventoried,tests/site_control,none (Phase 1+),Workspace scope unresolved
+ZEN-001,Zen UI,Vertical tabs,Zen tab strip CSS/JS + patches,gBrowser.tabContainer; XUL; CustomizableUI,Secant WebUI vertical tab strip + SecantTabModel,inventoried,tests/tabs; tests/spaces,none (Phase 1+),Custom WebUI surface
+ZEN-002,Zen UI,Tab sidebar,Zen sidebar layout + CSS,XUL; gBrowser; CustomizableUI,WebUI sidebar + Views window shell,inventoried,tests/tabs,none (Phase 1+),XUL layout must be recreated
+ZEN-003,Zen UI,Collapsible sidebar,ZenVerticalTabsManager + prefs,XUL; CustomizableUI; Services.prefs,WebUI + Secant layout service,inventoried,tests/compact_mode,none (Phase 1+),Animation and hover behavior custom
+ZEN-004,Zen UI,Sidebar resize,Zen CSS/JS + prefs,XUL; Services.prefs,WebUI + Secant layout service,inventoried,tests/library,none (Phase 1+),Not yet assessed
+ZEN-005,Zen UI,Compact mode,ZenCompactMode + native mouse tracker,nsIWidget; XUL; Services.prefs,Views/WebUI + platform pointer monitor,port-pending,tests/compact_mode,none (Phase 1+),Wayland global pointer limits
+ZEN-006,Zen UI,Single toolbar,ZenVerticalTabsManager + CSS,XUL; CustomizableUI; gURLBar,WebUI toolbar + Secant layout,inventoried,tests/urlbar,none (Phase 1+),Layout and URL bar behavior custom
+ZEN-007,Zen UI,Workspaces,ZenSpaceManager + ZenSpace,XUL; gBrowser; SessionStore; containers,Secant WorkspaceService + WebUI,port-pending,tests/spaces,none (Phase 1+),Isolation model unresolved
+ZEN-008,Zen UI,Workspace switching,ZenSpaceManager + swipe/gradient,XUL; gBrowser; Services.prefs,Secant WorkspaceService + WebUI,port-pending,tests/spaces,none (Phase 1+),Animation and tab state semantics custom
+ZEN-009,Zen UI,Workspace creation/edit/delete,ZenSpaceCreation + ZenSpace,XUL; gBrowser; Places,Secant WorkspaceService + WebUI,port-pending,tests/spaces,none (Phase 1+),Data model migration required
+ZEN-010,Zen UI,Workspace themes and gradients,ZenGradientGenerator + tokens,CSS; prefs,WebUI CSS + Secant theme service,asset-ready,tests/spaces,none (Phase 1+),Gradient algorithm reusable
+ZEN-011,Zen UI,Workspace icons and emoji,ZenSpaceIcons + emoji picker,XUL; emoji data,WebUI + emoji picker,asset-ready,tests/spaces,none (Phase 1+),Asset licensing review
+ZEN-012,Zen UI,Workspace swipe gestures,ZenSpacesSwipe + nsZenSwipeOverrides,Gecko gestures; widget,Chromium gesture pipeline,port-pending,tests/spaces,none (Phase 1+),Platform gesture behavior differs
+ZEN-013,Zen UI,Workspace bookmarks,ZenSpaceBookmarksStorage,PlacesUtils; bookmarks,Chromium BookmarkModel + metadata,port-pending,tests/spaces,none (Phase 1+),Metadata model custom
+ZEN-014,Zen UI,Workspace containers and identity,ZenSpaceManager + ContextualIdentityService,ContextualIdentityService; userContextId,No direct equivalent; profile/partition options,blocked,tests/container_essentials,none (Phase 1+),Critical parity risk
+ZEN-015,Zen UI,Workspace routing,ZenSpaceRoutingManager + navigation patches,ContextualIdentityService; gBrowser; URILoadingHelper,Secant routing service + navigation throttle,port-pending,tests/space_routing,none (Phase 1+),Navigation interception differs
+ZEN-016,Zen UI,Pinned tabs,ZenPinnedTabManager + tabbrowser patches,gBrowser; SessionStore; PlacesUtils,SecantTabModel + WebUI,port-pending,tests/pinned,none (Phase 1+),Unload/reset policy custom
+ZEN-017,Zen UI,Essentials,ZenPinnedTabManager essentials + CSS,gBrowser; SessionStore,SecantTabModel + WebUI,port-pending,tests/container_essentials; tests/pinned,none (Phase 1+),Container-specific essentials custom
+ZEN-018,Zen UI,Split View,ZenViewSplitter + tabbrowser patches,gBrowser; tabpanels; SessionStore,Secant split layout + multiple WebContents,port-pending,tests/split_view,none (Phase 1+),Chromium tab model has no split view
+ZEN-019,Zen UI,Glance,ZenGlanceManager + actors,gBrowser; Services.io; JSWindowActor,Secant glance overlay + WebContents,port-pending,tests/glance,none (Phase 1+),Overlay lifecycle and actors differ
+ZEN-020,Zen UI,Tab folders,ZenFolders + tab groups,gBrowser; MozTabbrowserTabGroup; SessionStore,SecantTabModel folders + WebUI,port-pending,tests/folders,none (Phase 1+),Nested folder model custom
+ZEN-021,Zen UI,Folder nesting,ZenFolders,max subfolders pref; XUL,SecantTabModel + WebUI,port-pending,tests/folders,none (Phase 1+),Not yet assessed
+ZEN-022,Zen UI,Folder drag and drop,ZenFolders + drag patches,XUL drag/drop; gBrowser,Views drag/drop + WebUI,port-pending,tests/folders,none (Phase 1+),Drop geometry custom
+ZEN-023,Zen UI,Library sidebar,ZenLibrary + Lit sections,PlacesUtils; downloads; media; prefs,Secant WebUI library + services,port-pending,tests/library,none (Phase 1+),Lit reuse possible in WebUI
+ZEN-024,Zen UI,Sidebar integrations,Firefox sidebar + Zen patches,Sidebar XUL; webextensions,Chromium side panel + WebUI,port-pending,tests/mochitests/sidebar,none (Phase 1+),Extension side panels differ
+ZEN-025,Zen UI,Tab organization,Zen tab ordering + workspaces,gBrowser; SessionStore,SecantTabModel + WebUI,port-pending,tests/tabs; tests/spaces,none (Phase 1+),Rules custom
+ZEN-026,Zen UI,Tab renaming,ZenTabRenamer,gBrowser; XUL,SecantTabModel + WebUI,inventoried,tests/ui,none (Phase 1+),Persisted metadata custom
+ZEN-027,Zen UI,Tab icons and emoji,ZenPinnedTabManager + emoji picker,gBrowser; Places favicons; emoji data,SecantTabModel + WebUI,asset-ready,tests/ui,none (Phase 1+),Asset licensing review
+ZEN-028,Zen UI,Tab loading indicator,ZenProgressBar + CSS,gBrowser; XUL,WebUI + SecantTabModel,port-pending,tests/ui,none (Phase 1+),Animation custom
+ZEN-029,Zen UI,Essential unread dot,ZenPinnedTabManager,gBrowser; SessionStore,SecantTabModel + WebUI,port-pending,tests/tabs,none (Phase 1+),Unread semantics custom
+ZEN-030,Zen UI,New tab button placement,Zen CSS + prefs,XUL; CustomizableUI,WebUI layout,inventoried,tests/spaces,none (Phase 1+),Not yet assessed
+ZEN-031,Zen UI,Scroll to selected tab,Zen CSS/JS,gBrowser.tabContainer,WebUI virtualized tab list,port-pending,tests/tabs,none (Phase 1+),Virtualization behavior differs
+ZEN-032,Zen UI,Window controls,ZenVerticalTabsManager + patches,widget; XUL; Cocoa/Win32,Views BrowserFrame + platform controls,port-pending,tests/little_window,none (Phase 1+),Native control styles differ
+ZEN-033,Zen UI,Window drag from content,nsZenWindowDragUtils + patches,Gecko widget/window,Views Widget drag + platform APIs,port-pending,tests/window_drag,none (Phase 1+),Platform drag semantics differ
+ZEN-034,Zen UI,Draggable sidebar,Zen CSS/JS + window drag,gBrowser; widget,WebUI + Views drag,inventoried,tests/window_drag,none (Phase 1+),Not yet assessed
+ZEN-035,Zen UI,Customizable UI and toolbars,CustomizableUI patches + Zen,CustomizableUI; XUL,Chromium toolbar customization + WebUI,inventoried,tests/mochitests/customizableui,none (Phase 1+),Model differs
+ZEN-036,Zen UI,Themes (light/dark/system),Zen tokens + theme patches,CSS; LightweightThemeConsumer,WebUI CSS + native theme,inventoried,tests/spaces,none (Phase 1+),Native theme integration differs
+ZEN-037,Zen UI,Accent color,Zen theme prefs + CSS,CSS; Services.prefs,WebUI CSS variables,inventoried,tests/spaces,none (Phase 1+),Not yet assessed
+ZEN-038,Zen UI,Wallpaper and backgrounds,Zen images + CSS,CSS,WebUI CSS + assets,asset-ready,tests/welcome,none (Phase 1+),Asset licensing review
+ZEN-039,Zen UI,Zen Mods,ZenMods + native stylesheet backend,Servo style set; Document; XPCOM,Secant theme/mod service + WebUI CSS,blocked,tests/mochitests/mods,none (Phase 1+),No Chromium equivalent for browser-chrome CSS mods
+ZEN-040,Zen UI,Boosts,ZenBoostsManager + content sheets + C++,BrowsingContext; Servo; Document,Secant BoostService + Blink user styles,blocked,tests/boosts,none (Phase 1+),Per-site CSS injection and style computation differ
+ZEN-041,Zen UI,Little window,ZenLittleWindow + Firefox windows,gBrowser; browser windows; prefs,Chromium Browser window + Secant compact mode,port-pending,tests/little_window,none (Phase 1+),Window lifecycle differs
+ZEN-042,Zen UI,Media controls,ZenMediaController + CSS,MediaController; XUL,Chromium media session + WebUI,port-pending,tests/media,none (Phase 1+),Media session integration differs
+ZEN-043,Zen UI,Toasts,ZenToasts,gBrowser; XUL,WebUI toast service,port-pending,tests/ui,none (Phase 1+),Animation custom
+ZEN-044,Zen UI,Menubar,ZenMenubar,XUL menubar,Views native menu + WebUI,port-pending,tests/mochitests/menus,none (Phase 1+),Native menu structure differs
+ZEN-045,Zen UI,Context menu refresh,Zen UI patches,XUL; nsContextMenu,Views/WebUI menus,inventoried,tests/ui,none (Phase 1+),Not yet assessed
+ZEN-046,Zen UI,Watermark,ZenStartup + CSS,CSS; prefs,WebUI CSS,inventoried,tests/spaces,none (Phase 1+),Not yet assessed
+ZEN-047,Zen UI,Welcome screen,ZenWelcome + video,XUL/XHTML; prefs,WebUI welcome page,asset-ready,tests/welcome,none (Phase 1+),Video asset licensing review
+ZEN-048,Zen UI,About page,about:zen + ZenAbout,about redirector; XUL,secant://about WebUI,port-pending,tests/about,none (Phase 1+),About content and credits differ
+ZEN-049,Zen UI,Floating URL bar,ZenUrlbarController + CSS,gURLBar; XUL,WebUI omnibox + Views,port-pending,tests/urlbar,none (Phase 1+),Focus and animation behavior custom
+ZEN-050,Zen UI,URL bar providers and quick actions,ZenUB* providers,UrlbarProvidersManager; UrlbarPrefs,Chromium Omnibox providers + WebUI,port-pending,tests/ub-actions; tests/urlbar,none (Phase 1+),Provider API differs
+ZEN-051,Zen UI,Site data panel,ZenSiteDataPanel,nsIPermissionManager; site identity,Chromium Page Info + WebUI,inventoried,tests/site_control,none (Phase 1+),Data categories differ
+ZEN-052,Zen UI,Share,ZenShareManager + native share,Services.zen; nsISharePicker; clipboard,OS share APIs + WebUI,port-pending,tests/share,none (Phase 1+),Native share availability differs
+ZEN-053,Zen UI,Live folders,ZenLiveFoldersManager + providers,Places; fetch; XUL,Secant live folder service + WebUI,port-pending,tests/live-folders,none (Phase 1+),Provider APIs and caching custom
+ZEN-054,Zen UI,Space routing,ZenSpaceRoutingManager,ContextualIdentityService; navigation,Secant routing service,port-pending,tests/space_routing,none (Phase 1+),Depends on isolation model
+ZEN-055,Zen UI,Window sync UI,ZenWindowSync,SessionStore; Services.wm,Secant window sync service,port-pending,tests/window_sync,none (Phase 1+),Transport and conflict rules custom
+ZEN-056,Zen UI,Spaces sync UI,ZenSpacesSync,Firefox Sync; containers,Secant sync service,blocked,tests/device_sync,none (Phase 1+),Firefox Sync cannot be reused
+ZEN-057,Zen UI,Migration from Firefox/Arc/Dia,ZenMigrationUtils + wizard,Firefox migration; Places; containers,Secant importer + Chromium profile import,port-pending,tests/migration,none (Phase 1+),Data mapping and containers
+ZEN-058,Zen UI,Haptic feedback,ZenCommonUtils + Cocoa,NSHapticFeedbackManager,Chromium/OS haptic API,port-pending,tests/mochitests/haptics,none (Phase 1+),Platform availability differs
+ZEN-059,Zen UI,Global shortcuts,ZenGlobalShortcuts + Cocoa/Win32,XUL keysets; RegisterHotKey; Carbon,Chromium GlobalAcceleratorListener + portals,port-pending,tests/kbs,none (Phase 1+),Linux portal and macOS permissions
+ZEN-060,Zen UI,Swipe gestures,ZenSpacesSwipe + patches,Gecko gestures; widget,Chromium gesture/overscroll pipeline,port-pending,tests/spaces,none (Phase 1+),Platform gesture behavior differs
+ZEN-061,Zen UI,Pinned tab URL editing/reset,ZenPinnedTabManager,gBrowser; Places favicons; SessionStore,SecantTabModel + WebUI,port-pending,tests/pinned,none (Phase 1+),Reset policy custom
+ZEN-062,Zen UI,Essentials promo,ZenEssentialsPromo,gBrowser; XUL,WebUI onboarding,port-pending,tests/pinned,none (Phase 1+),Not yet assessed
+ZEN-063,Zen UI,Workspace default profile/container,ZenSpaceManager + context menu,ContextualIdentityService,Secant workspace identity model,blocked,tests/container_essentials,none (Phase 1+),Isolation model unresolved
+ZEN-064,Zen UI,Private workspace mode,ZenSpaceManager private flags,PrivateBrowsingUtils; SessionStore,Chromium OffTheRecord context,port-pending,tests/spaces,none (Phase 1+),Lifecycle differs
+ZEN-065,Zen UI,Tab multi-select copy URLs,ZenCommonActions,gBrowser.selectedTabs; clipboard,WebUI + clipboard service,port-pending,tests/tabs,none (Phase 1+),Not yet assessed
+ZEN-066,Zen UI,Split View with Glance,ZenViewSplitter + ZenGlanceManager,gBrowser; tabpanels,Secant split/glance layout,port-pending,tests/split_view,none (Phase 1+),Complex composition
+ZEN-067,Zen UI,Folder unload,ZenFolders + TabUnloader,gBrowser; SessionStore,SecantTabModel discard + WebUI,port-pending,tests/folders,none (Phase 1+),Unload policy custom
+ZEN-068,Zen UI,Close tab on back with no history,Zen prefs + patches,gBrowser; session history,Chromium navigation controller,port-pending,tests/tabs,none (Phase 1+),Behavior policy custom
+ZEN-069,Zen UI,Ctrl+Tab pending/essential behavior,Zen prefs + patches,ctrlTab; gBrowser,Secant tab switcher,port-pending,tests/tabs,none (Phase 1+),Selection rules custom
+ZEN-070,Zen UI,URL bar single-toolbar copy/zoom,ZenUrlbarController + prefs,gURLBar; gBrowser,WebUI omnibox + WebContents zoom,inventoried,tests/urlbar,none (Phase 1+),Not yet assessed
+ZEN-071,Zen UI,Close window with empty tabs,Zen prefs + patches,gBrowser; windows,Chromium window close policy,inventoried,tests/spaces,none (Phase 1+),Not yet assessed
+ZEN-072,Zen UI,Drag-over split,ZenViewSplitter + prefs,gBrowser drag/drop,Views/WebUI drag/drop,port-pending,tests/split_view,none (Phase 1+),Hit-testing custom
+ZEN-073,Zen UI,Tab click split,ZenViewSplitter + prefs,gBrowser; XUL,WebUI + Secant split service,port-pending,tests/split_view,none (Phase 1+),Gesture mapping differs
+ZEN-074,Zen UI,Media sharing two tabs,ZenMediaController,MediaController,Chromium media session + WebUI,port-pending,tests/media,none (Phase 1+),Session ownership differs
+ZEN-075,Zen UI,Little window session,ZenLittleWindow + session,gBrowser; SessionStore,Chromium window/session service,port-pending,tests/little_window,none (Phase 1+),Restore semantics differ
+ZEN-076,Zen UI,Welcome background video,ZenWelcome,XUL/XHTML,WebUI video,asset-ready,tests/welcome,none (Phase 1+),Asset licensing review
+ZEN-077,Zen UI,Update notification animation,ZenUpdates + CSS,UpdateUtils; XUL,Secant updater + WebUI,inventoried,tests/mochitests/update,none (Phase 1+),Updater integration differs
+ZEN-078,Zen UI,Watermark and background effects,ZenStartup + CSS,CSS,WebUI CSS,inventoried,tests/spaces,none (Phase 1+),Not yet assessed
+ZEN-079,Zen UI,Sidebar notification,ZenSidebarNotification,XUL; PopupNotifications,WebUI + notification service,port-pending,tests/ui,none (Phase 1+),Not yet assessed
+ZEN-080,Zen UI,Zen commands and internal API,Zen globals + commands,gBrowser; XUL; XPCOM,Secant command service + WebUI,inventoried,tests/ui,none (Phase 1+),Command IDs and scopes differ
+PLT-001,Platform,Windows support,Windows patches + NSIS/MSIX,widget/windows; installer; signing,Chromium Windows port + installer,inventoried,tests/mochitests/shell,none (Phase 1+),Installer/update stack differs
+PLT-002,Platform,Linux support,GTK patches + AppImage/Flatpak,widget/gtk; X11/Wayland; packaging,Chromium Linux port + packages,inventoried,tests/mochitests/shell,none (Phase 1+),Desktop integration differs
+PLT-003,Platform,macOS support,Cocoa patches + DMG,widget/cocoa; signing; notarization,Chromium macOS port + DMG,inventoried,tests/mochitests/shell,none (Phase 1+),Notarization and update differ
+PLT-004,Platform,Native window behavior,Cocoa/GTK/Win32 patches,widget; nsWindow,Views BrowserFrame + platform APIs,port-pending,tests/little_window; tests/window_drag,none (Phase 1+),Window chrome differs
+PLT-005,Platform,System integration,Shell patches + native code,nsIShellService; registry; LaunchServices,Chromium shell integration,port-pending,tests/mochitests/shell,none (Phase 1+),Platform registration differs
+PLT-006,Platform,Native menus,ZenMenubar + XUL,XUL menubar,Views MenuModel + native menus,port-pending,tests/mochitests/menus,none (Phase 1+),Menu structure differs
+PLT-007,Platform,Window management,Zen compact/little/split patches,widget; nsWindow; XUL,Views Widget + Secant layout,port-pending,tests/compact_mode; tests/little_window,none (Phase 1+),Custom window states
+PLT-008,Platform,Installer,NSIS/MSIX + AppDir/Flatpak,Firefox installer; packaging,Chromium installer + packages,port-pending,tests/mochitests/installer,none (Phase 1+),Installer UX differs
+PLT-009,Platform,Updater,MAR + update host,UpdateUtils; MAR,Chromium/Secant updater,port-pending,tests/mochitests/update,none (Phase 1+),Update protocol differs
+PLT-010,Platform,Signing and notarization,macOS/Windows signing,Apple notarization; Authenticode,Chromium signing pipeline,port-pending,tests/mochitests/signing,none (Phase 1+),Certificate and pipeline differ
+PLT-011,Platform,Multi-monitor and DPI,XUL/widget handling,widget; display,Chromium display/DPI,port-pending,tests/performance/hidpi,none (Phase 1+),Not yet assessed
+PLT-012,Platform,Touchpad and gestures,Gecko gesture patches,widget; SwipeTracker,Chromium gesture pipeline,port-pending,tests/mochitests/gesture,none (Phase 1+),Platform gesture behavior differs
+PLT-013,Platform,Global shortcut registration,ZenGlobalShortcuts + native,XUL; OS hotkeys,Chromium GlobalAcceleratorListener + portals,port-pending,tests/kbs,none (Phase 1+),Permissions and portals
+PLT-014,Platform,OS share,ZenCommonUtils + native,nsISharePicker; Cocoa/Win,OS share APIs,port-pending,tests/share,none (Phase 1+),Availability differs
+PLT-015,Platform,Native haptic integration,ZenCommonUtils + Cocoa,NSHapticFeedbackManager,OS/Chromium haptic API,port-pending,tests/mochitests/haptics,none (Phase 1+),Platform availability
+PLT-016,Platform,File associations,Installer + shell patches,nsIShellService; registry,Chromium shell integration,port-pending,tests/mochitests/shell,none (Phase 1+),Platform behavior
+PLT-017,Platform,Taskbar and dock integration,Shell patches,nsIShellService; Windows/macOS APIs,Chromium platform integration,port-pending,tests/mochitests/shell,none (Phase 1+),Platform behavior
+PLT-018,Platform,Crash reporting pipeline,Firefox crash reporter,CrashReporter; minidump,Chromium crash reporting,port-pending,tests/mochitests/crash,none (Phase 1+),Server and consent
+PLT-019,Platform,Wayland compatibility,GTK/Wayland patches,widget/gtk; Wayland,Chromium Ozone/Wayland,port-pending,tests/mochitests/wayland,none (Phase 1+),Global pointer and shortcuts limits
+PLT-020,Platform,Platform theme and vibrancy,Cocoa/GTK/Win patches,Cocoa/GTK/DWM,Views native theme + effects,port-pending,tests/mochitests/theme,none (Phase 1+),Native material differs
+SEC-001,Security,Process isolation,Firefox process model,Gecko IPC; content processes,Chromium process model,inventoried,tests/mochitests/outOfProcess,none (Phase 1+),Architecture differs
+SEC-002,Security,Site isolation,Firefox Fission,gFissionBrowser; BrowsingContext,Chromium site isolation,inventoried,tests/mochitests/outOfProcess,none (Phase 1+),Policy configuration differs
+SEC-003,Security,Sandbox,Firefox sandbox,Gecko sandbox,Chromium sandbox,inventoried,tests/security,none (Phase 1+),Must remain enabled
+SEC-004,Security,Secure IPC,Gecko IPC,JSWindowActor; PContent,Chromium Mojo,inventoried,tests/security,none (Phase 1+),Interface design required
+SEC-005,Security,Permission enforcement,Firefox permissions,nsIPermissionManager,Chromium PermissionManager,inventoried,tests/site_control,none (Phase 1+),Workspace scoping unresolved
+SEC-006,Security,Secure profile storage,Firefox profile + key4.db,NSS; profile service,Chromium profile + OSCrypt,inventoried,tests/security,none (Phase 1+),Encryption/key store differs
+SEC-007,Security,Safe downloads,Firefox Safe Browsing,SafeBrowsing; downloads,Chromium download protection,inventoried,tests/mochitests/safebrowsing,none (Phase 1+),Service integration differs
+SEC-008,Security,Extension permission controls,Firefox extension permissions,ExtensionPermissions; AddonManager,Chromium extension permissions,inventoried,tests/mochitests/extensions,none (Phase 1+),Manifest model differs
+SEC-009,Security,Certificate validation,Firefox NSS,NSS; cert verifier,Chromium cert verifier,inventoried,tests/security,none (Phase 1+),Do not port cert override patch
+SEC-010,Security,Secure updates,MAR signing,MAR; update verification,Chromium update verification,port-pending,tests/mochitests/update,none (Phase 1+),Update chain differs
+SEC-011,Security,Private browsing isolation,Firefox private browsing,PrivateBrowsingUtils; storage,Chromium OffTheRecord,inventoried,tests/mochitests/privatebrowsing,none (Phase 1+),Workspace private mode differs
+SEC-012,Security,Container isolation,Firefox contextual identities,ContextualIdentityService; storage partitions,No direct equivalent; custom partition model,blocked,tests/container_essentials,none (Phase 1+),Critical parity and security risk
