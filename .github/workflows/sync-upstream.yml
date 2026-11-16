@@ -22,11 +22,11 @@ permissions:
 jobs:
   check_candidates:
     name: Sync Upstream
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: useblacksmith/checkout@v1
 
       - name: Check if upstream branch already exists
         id: check-upstream-branch

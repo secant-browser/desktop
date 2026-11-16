@@ -63,7 +63,7 @@ jobs:
           tool-cache: false
 
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: useblacksmith/checkout@v1
         with:
           submodules: recursive
           token: ${{ secrets.DEPLOY_KEY }}
