@@ -103,6 +103,9 @@ All documents listed above now exist. Validation on 2026-11-16:
 - relative Markdown links: **0 missing**;
 - no browser build, test run or screenshot capture was performed.
 
+The document set was committed on `feat/chromium-engine-migration` as
+`60333386c` (`docs: add Phase 0 Chromium migration assessment`).
+
 ### Gate
 
 Phase 0 is **complete pending architecture review**. Phase 1 is not started.
