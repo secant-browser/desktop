@@ -1,0 +1,12 @@
+source_set("browser") {
+  sources = [
+    "tab_model.cc",
+    "tab_model.h",
+  ]
+}
+
+executable("tab_model_unittest") {
+  testonly = true
+  sources = [ "tab_model_unittest.cc" ]
+  deps = [ ":browser" ]
+}

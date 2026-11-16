@@ -13,21 +13,21 @@ Target engine: **Chromium** (Blink + V8)
 
 This directory is the migration control plane. It records the assessment, the
 architecture decision, the dependency and feature maps, the parity methodology,
-and the phase gates. Implementation does not begin until the Phase 0 proposal
-has been reviewed.
+and the phase gates. Phase 0 was approved on 2026-11-16; Phase 1 is in progress.
 
 ## Status
 
 | Item | Value |
 | --- | --- |
-| Phase | **0 — Assessment** |
-| Phase 0 state | Complete; awaiting architecture review |
-| Implementation state | Not started by design |
+| Phase | **1 — Foundation spike** |
+| Phase 0 state | Approved 2026-11-16 |
+| Implementation state | Phase 1 scaffold started |
 | Integration branch | `feat/chromium-engine-migration` |
 | Branch base | `dev` @ `dcf5b046974098186a317d01a4bacb070955829d` |
 | Working tree at assessment | Clean |
 | Browser engine in checkout | **Absent** (`engine/` is not vendored) |
-| Chromium build | **None** |
+| Chromium pin | **157.0.8103.78** @ `4b3d0dabb8250b6f152d2d85d79e7706e309d087` |
+| Chromium build | **None**; toolchain installed, checkout blocked by disk |
 
 The repository is a Zen *overlay*: it contains Zen's product code, Firefox
 patches, preferences, packaging and tests, but not the Firefox engine. `surfer`
@@ -52,6 +52,7 @@ patch-replacement exercise; it requires a Chromium fork and a new product layer.
 | [risk-register.md](phase-0/risk-register.md) | Top risks, mitigations and owners |
 | [ADR 0001](../migration/adr/0001-chromium-foundation.md) | The Chromium foundation decision record |
 | [MIGRATION_LOG.md](MIGRATION_LOG.md) | Append-only migration log |
+| [phase-1/foundation-spike.md](phase-1/foundation-spike.md) | Phase 1 pin, toolchain, scaffold and blockers |
 
 ## Selected architecture (summary)
 
@@ -104,11 +105,14 @@ declared acceptance criterion. See [parity-report.md](phase-0/parity-report.md).
 
 ## Next gate
 
-Review and approve:
+Phase 1 exit criteria in
+[foundation-spike.md](phase-1/foundation-spike.md):
 
-1. the Chromium fork + `//secant` + hybrid WebUI/Views architecture;
-2. the workspace/container isolation strategy (highest-risk parity area);
-3. the extension and Zen Mods compatibility policy;
-4. the Phase 1 foundation spike and its measurable exit criteria.
+1. reproducible Chromium build on Windows, macOS and Linux;
+2. native window with a WebUI chrome surface;
+3. basic tab lifecycle through `SecantTabModel`;
+4. session restore and workspace isolation prototypes;
+5. measured performance, accessibility and visual baselines.
 
-Until that review, no large-scale implementation is started.
+The immediate blocker is a runner with at least **150 GiB** free for the
+Chromium checkout and build. This sandbox has **7.2 GiB** free.

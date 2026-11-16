@@ -1,0 +1,13 @@
+{
+  "channel": "Stable",
+  "milestone": 157,
+  "version": "157.0.8103.78",
+  "branch": "refs/branch-heads/8103",
+  "branch_head": "b73459700a57da23a8ae9f624e6093daa04e9a71",
+  "commit": "4b3d0dabb8250b6f152d2d85d79e7706e309d087",
+  "main_branch_position": 1717349,
+  "platform": "linux-x64",
+  "retrieved_at": "2026-11-16",
+  "source": "https://chromiumdash.appspot.com/fetch_releases?channel=Stable&platform=Linux&num=3",
+  "notes": "Exact stable release tag. The branch head can advance independently."
+}
