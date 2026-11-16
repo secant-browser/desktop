@@ -72,12 +72,12 @@ on:
 jobs:
   buildid:
     name: Generate build ID
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     outputs:
       buildids: ${{ steps.get.outputs.bid }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: useblacksmith/checkout@v1
         with:
           submodules: recursive
           token: ${{ secrets.DEPLOY_KEY }}
@@ -123,7 +123,7 @@ jobs:
     permissions:
       contents: write
     name: Generate build data
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     needs: buildid
     outputs:
       build_date: ${{ steps.data.outputs.builddate }}
@@ -131,7 +131,7 @@ jobs:
       build_time: ${{ steps.data.outputs.buildtime }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: useblacksmith/checkout@v1
         with:
           submodules: recursive
           token: ${{ secrets.DEPLOY_KEY }}
@@ -225,12 +225,12 @@ jobs:
   source:
     permissions:
       contents: write
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     needs: [build-data, check-release]
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: useblacksmith/checkout@v1
         with:
           submodules: recursive
           token: ${{ secrets.DEPLOY_KEY }}
@@ -279,7 +279,7 @@ jobs:
 
   pgo-cache:
     name: Probe cached PGO profile data
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     outputs:
       prefix: ${{ steps.key.outputs.prefix }}
       mac-hit: ${{ steps.probe.outputs.mac }}
@@ -288,7 +288,7 @@ jobs:
       windows-cs-hit: ${{ steps.probe.outputs.windows-cs }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: useblacksmith/checkout@v1
 
       - name: Decide whether a cached profile may be reused
         id: gate
@@ -553,14 +553,14 @@ jobs:
     name: AppImage build - Linux ${{ matrix.arch }}
     permissions:
       contents: write
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     strategy:
       matrix:
         arch: [x86_64, aarch64]
     needs: [linux, build-data]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: useblacksmith/checkout@v1
         with:
           submodules: recursive
           token: ${{ secrets.DEPLOY_KEY }}
@@ -653,7 +653,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: useblacksmith/checkout@v1
         with:
           submodules: recursive
           token: ${{ secrets.DEPLOY_KEY }}
@@ -662,7 +662,7 @@ jobs:
         uses: actions/download-artifact@v4
 
       - name: Checkout updates repository
-        uses: actions/checkout@v5
+        uses: useblacksmith/checkout@v1
         with:
           repository: zen-browser/updates-server
           path: updates-server
@@ -828,11 +828,11 @@ jobs:
     permissions: write-all
     name: Prepare Flatpak
     needs: [release, linux, build-data]
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
 
     steps:
       - name: Checkout Flatpak repository
-        uses: actions/checkout@v5
+        uses: useblacksmith/checkout@v1
         with:
           repository: zen-browser/release-utils
           token: ${{ secrets.DEPLOY_KEY }}
@@ -856,7 +856,7 @@ jobs:
           commit_user_email: zen-browser-auto@users.noreply.github.com
 
       - name: Checkout Flatpak repository
-        uses: actions/checkout@v5
+        uses: useblacksmith/checkout@v1
         with:
           repository: zen-browser/flatpak
           token: ${{ secrets.DEPLOY_KEY }}
@@ -887,11 +887,11 @@ jobs:
     permissions: write-all
     name: Release Flatpak
     needs: [prepare-flatpak, build-data]
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
 
     steps:
       - name: Checkout Flatpak repository
-        uses: actions/checkout@v5
+        uses: useblacksmith/checkout@v1
         with:
           repository: flathub/app.zen_browser.zen
           token: ${{ secrets.DEPLOY_KEY }}
@@ -907,7 +907,7 @@ jobs:
           name: zen.linux-aarch64.tar.xz
 
       - name: Update repository
-        uses: actions/checkout@v5
+        uses: useblacksmith/checkout@v1
         with:
           path: zen-browser
           token: ${{ secrets.DEPLOY_KEY }}
