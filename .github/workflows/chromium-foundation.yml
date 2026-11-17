@@ -61,6 +61,11 @@ jobs:
           sudo bash "$CHROMIUM_DIR/src/build/install-build-deps.sh" \
             --no-prompt --no-arm --no-chromeos-fonts
 
+      - name: Build Secant product layer
+        run: |
+          python3 build/chromium/sync.py --build --dest "$CHROMIUM_DIR" \
+            --target secant_product
+
       - name: Build Chromium and Secant
         run: python3 build/chromium/sync.py --build --dest "$CHROMIUM_DIR"
 

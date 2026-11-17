@@ -33,7 +33,8 @@ struct Tab {
 
 class SecantTabModel {
  public:
-  SecantTabModel() = default;
+  SecantTabModel();
+  ~SecantTabModel();
   SecantTabModel(const SecantTabModel&) = delete;
   SecantTabModel& operator=(const SecantTabModel&) = delete;
 

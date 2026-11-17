@@ -48,8 +48,10 @@ python3 build/chromium/sync.py --build --target chrome --target secant_product
 ```
 
 The `chrome` target proves the Chromium browser build. The `secant_product`
-target builds the product-layer skeleton through `//secant`. A Secant-branded
-executable still requires the app bootstrap and the browser wiring patch.
+target builds the product-layer skeleton through `//secant`. CI builds
+`secant_product` first so product-layer compile errors fail before the full
+browser build. A Secant-branded executable still requires the app bootstrap and
+the browser wiring patch.
 
 ## Validation without Chromium
 

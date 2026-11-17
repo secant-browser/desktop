@@ -5,6 +5,9 @@
 
 namespace secant {
 
+SecantTabModel::SecantTabModel() = default;
+SecantTabModel::~SecantTabModel() = default;
+
 TabId SecantTabModel::CreateTab(WorkspaceId workspace_id,
                                 std::string url,
                                 std::string title) {
