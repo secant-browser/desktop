@@ -21,13 +21,13 @@ and the phase gates. Phase 0 was approved on 2026-11-16; Phase 1 is in progress.
 | --- | --- |
 | Phase | **1 — Foundation spike** |
 | Phase 0 state | Approved 2026-11-16 |
-| Implementation state | Phase 1 scaffold started |
+| Implementation state | Phase 1 scaffold and Linux build green |
 | Integration branch | `feat/chromium-engine-migration` |
 | Branch base | `dev` @ `dcf5b046974098186a317d01a4bacb070955829d` |
 | Working tree at assessment | Clean |
 | Browser engine in checkout | **Absent** (`engine/` is not vendored) |
 | Chromium pin | **157.0.8103.78** @ `4b3d0dabb8250b6f152d2d85d79e7706e309d087` |
-| Chromium build | **None**; toolchain installed, checkout blocked by disk |
+| Chromium build | **Linux green** in CI (`44186036431`); Windows/macOS pending |
 
 The repository is a Zen *overlay*: it contains Zen's product code, Firefox
 patches, preferences, packaging and tests, but not the Firefox engine. `surfer`
@@ -80,8 +80,8 @@ Scores are computed only from acceptance results, never from intent.
 
 | Score | Result | Denominator | Evidence |
 | --- | --- | --- | --- |
-| Behavioural parity | **0.0%** (0 passing) | 182 inventoried features | No Chromium build; no Secant acceptance run |
-| Visual parity | **0.0%** (0 passing) | 18 baseline cases | No Secant build; no screenshots captured |
+| Behavioural parity | **0.0%** (0 passing) | 182 inventoried features | Linux Chromium build exists; no Secant acceptance run |
+| Visual parity | **0.0%** (0 passing) | 18 baseline cases | Linux Chromium build exists; no Secant shell or screenshots |
 | Inventory coverage | **100%** (182/182) | Feature areas in scope | This Phase 0 inventory |
 
 These are honest baselines, not failure claims about the plan. They become
@@ -114,5 +114,6 @@ Phase 1 exit criteria in
 4. session restore and workspace isolation prototypes;
 5. measured performance, accessibility and visual baselines.
 
-The immediate blocker is a runner with at least **150 GiB** free for the
-Chromium checkout and build. This sandbox has **7.2 GiB** free.
+The Linux foundation build is green in CI. The immediate work is Windows and
+macOS build coverage plus the remaining Phase 1 evidence: native shell, tab
+adapter, session/workspace prototypes and measured baselines.

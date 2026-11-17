@@ -70,7 +70,10 @@ is the machine-readable source of truth.
 | `bash -n build/chromium/check_model.sh` | Pass |
 | `build/chromium/check_model.sh` | Pass |
 | `gn format` on `secant/**/BUILD.gn` | Pass |
-| `python3 build/chromium/sync.py --check` | Expected fail: 7.2 GiB free, 150 GiB required |
+| `python3 build/chromium/sync.py --check` | Local: expected fail (7.2 GiB free); CI: pass |
+| CI `secant_product` compile | Pass, run `44186036431` |
+| CI `chrome` build | Pass, 56,662 steps in 1h08m |
+| CI `chrome --version` | `Chromium 157.0.8103.78` |
 
 The tab model currently covers create, close, move, activate, pin, essential
 kind, folder metadata, workspace filtering and empty-title fallback. It has no
@@ -87,8 +90,13 @@ Actions on `blacksmith-32vcpu-ubuntu-2404` (32 vCPU, 128 GiB RAM, 1.5 TiB disk).
 It installs `depot_tools`, verifies the pin, runs the tab model tests, fetches
 Chromium, installs build dependencies, builds `secant_product` first, then
 `chrome`, and runs `chrome --version`. Tag fetches and dependency sync retry
-transient Googlesource `429` responses; `gclient sync` uses four SCM jobs. The
-first successful build run is pending.
+transient Googlesource `429` responses; `gclient sync` uses four SCM jobs.
+
+The Linux build gate passed on 2026-11-17 in
+[run `44186036431`](https://github.com/secant-browser/desktop/actions/runs/44186036431)
+at commit `adb44a5c5`: `secant_product` compiled, `chrome` built in 1h08m, and
+`chrome --version` reported `Chromium 157.0.8103.78`. Windows and macOS builds
+remain open.
 
 ## Next steps
 
@@ -98,6 +106,5 @@ first successful build run is pending.
    dependency-free model tests as the behavior specification.
 3. Create the native window plus `views::WebView` chrome host.
 4. Add the `secant://` WebUI scheme, CSP and Mojo interface.
-5. Complete the first Chromium CI build and smoke test, then capture the run
-   URL in the migration log.
+5. Add Windows and macOS builds to the foundation workflow.
 6. Capture startup, input latency, memory and accessibility baselines.

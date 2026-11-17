@@ -64,9 +64,12 @@ build/chromium/check_model.sh
 ## CI
 
 `.github/workflows/chromium-foundation.yml` runs the pin check, tab model tests,
-Chromium fetch, build dependency install, `chrome` + `secant_product` build and
-`chrome --version` smoke test. It uses `blacksmith-32vcpu-ubuntu-2404`
-(32 vCPU, 128 GiB RAM, 1.5 TiB disk), which satisfies the 150 GiB requirement.
+Chromium fetch, build dependency install, `secant_product` compile, `chrome`
+build and `chrome --version` smoke test. It uses
+`blacksmith-32vcpu-ubuntu-2404` (32 vCPU, 128 GiB RAM, 1.5 TiB disk), which
+satisfies the 150 GiB requirement.
 
-This sandbox is suitable for source review, model tests and script validation,
-not for a full Chromium build.
+The Linux workflow passes in about 1h30m wall time, including a 1h08m `chrome`
+build; the smoke test reports `Chromium 157.0.8103.78`. This sandbox is suitable
+for source review, model tests and script validation, not for a full Chromium
+build.

@@ -176,4 +176,64 @@ Phase 1 scaffold committed as `d96a49e67`
 
 Phase 1 is **in progress**. It is not complete until the build, shell, tab,
 session, isolation, performance and accessibility evidence in
-[phase-1/foundation-spike.md](../phase-1/foundation-spike.md) is recorded.
+[phase-1/foundation-spike.md](phase-1/foundation-spike.md) is recorded.
+
+## 2026-11-17 — Phase 1 Linux foundation build green
+
+### Workflow
+
+`.github/workflows/chromium-foundation.yml` runs on
+`blacksmith-32vcpu-ubuntu-2404` (32 vCPU, 128 GiB RAM, 1.5 TiB disk):
+
+1. install `depot_tools` and `ninja-build`;
+2. verify the pinned Chromium release;
+3. run the dependency-free tab model tests;
+4. fetch the pinned Chromium source and dependencies;
+5. install Chromium build dependencies;
+6. compile `secant_product` as a fast product-layer check;
+7. build `chrome` and `secant_product`;
+8. run `chrome --version` and upload `args.gn` / `build.ninja`.
+
+### Bring-up failures and fixes
+
+- `623c06a1f` (run `44015339632`) failed before a job was created because
+  `runner` is not an allowed context in job-level `env`.
+- `2db267061` (run `44015452444`) reached GN, then failed with
+  `unknown target "secant"`. The root build graph did not reference `//secant`.
+  `4e2e84d62` added
+  `patches/chromium/0001-build-expose-secant-target.patch`, which adds a
+  non-default `secant_product` group that depends on `//secant`.
+- `4e2e84d62` reintroduced the `runner` context in job-level `env`; run
+  `44166014954` failed before job creation. `8704c0589` moved the checkout to
+  `github.workspace/.chromium`.
+- `8704c0589` (run `44166164333`) fetched most dependencies, then
+  `gclient sync` hit a Googlesource HTTP `429` in `third_party/webrtc`.
+  `3442214ae` added bounded retries for tag fetches and dependency sync and
+  limited `gclient sync` to four SCM jobs.
+- `3442214ae` (run `44171059833`) built for 1h00m and then failed the Chromium
+  style plugin in `secant/browser/tab_model.h`: the defaulted constructor was
+  inline and the class lacked an out-of-line destructor. `adb44a5c5` moved both
+  out of line and added the `secant_product` pre-build step.
+
+### Passing run
+
+Run
+[`44186036431`](https://github.com/secant-browser/desktop/actions/runs/44186036431)
+at commit `adb44a5c5`:
+
+- `secant_product`: 3 steps, 3.42s;
+- `chrome`: 56,662 steps, 1h08m01s;
+- smoke test: `Chromium 157.0.8103.78`;
+- artifact: `chromium-foundation-metadata`, 710,569 bytes;
+- overall workflow: success.
+
+This proves the Linux build of the pinned Chromium plus the `//secant` product
+layer. It does not yet prove a Secant-branded executable, native shell, WebUI
+chrome, tab adapter, session restore or workspace isolation.
+
+### Still open
+
+Windows and macOS builds, the native window and WebUI chrome, the
+`TabStripModel` adapter, session/workspace prototypes, and performance,
+accessibility and visual baselines. Behavioural and visual parity remain
+**0/182** and **0/18**.
