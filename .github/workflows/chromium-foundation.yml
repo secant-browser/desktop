@@ -1,0 +1,80 @@
+name: Chromium foundation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/chromium-engine-migration
+    paths:
+      - ".github/workflows/chromium-foundation.yml"
+      - "build/chromium/**"
+      - "patches/chromium/**"
+      - "secant/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: chromium-foundation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  linux-build:
+    name: Chromium Linux build
+    runs-on: blacksmith-32vcpu-ubuntu-2404
+    timeout-minutes: 360
+    env:
+      DEPOT_TOOLS: ${{ github.workspace }}/.depot_tools
+      CHROMIUM_DIR: ${{ runner.temp }}/chromium
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Show disk
+        run: df -h
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build
+
+      - name: Install depot_tools
+        run: |
+          git clone --depth 1 \
+            https://chromium.googlesource.com/chromium/tools/depot_tools.git \
+            "$DEPOT_TOOLS"
+          echo "$DEPOT_TOOLS" >> "$GITHUB_PATH"
+
+      - name: Verify pin
+        run: python3 build/chromium/sync.py --check --dest "$CHROMIUM_DIR"
+
+      - name: Run tab model tests
+        run: build/chromium/check_model.sh
+
+      - name: Fetch Chromium
+        run: python3 build/chromium/sync.py --fetch --dest "$CHROMIUM_DIR"
+
+      - name: Install Chromium build dependencies
+        run: |
+          sudo bash "$CHROMIUM_DIR/src/build/install-build-deps.sh" \
+            --no-prompt --no-arm --no-chromeos-fonts
+
+      - name: Build Chromium and Secant
+        run: python3 build/chromium/sync.py --build --dest "$CHROMIUM_DIR"
+
+      - name: Smoke test
+        run: |
+          "$CHROMIUM_DIR/src/out/secant-dev/chrome" --version
+
+      - name: Upload build metadata
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chromium-foundation-metadata
+          path: |
+            ${{ env.CHROMIUM_DIR }}/src/out/secant-dev/args.gn
+            ${{ env.CHROMIUM_DIR }}/src/out/secant-dev/build.ninja
+          if-no-files-found: ignore
+          retention-days: 7

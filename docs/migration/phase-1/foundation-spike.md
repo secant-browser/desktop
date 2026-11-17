@@ -53,6 +53,7 @@ is the machine-readable source of truth.
 | `build/chromium/sync.py` | Check, fetch, patch, copy and build driver |
 | `build/chromium/args/linux-dev.gn` | Linux development GN args |
 | `build/chromium/check_model.sh` | Dependency-free model test |
+| `.github/workflows/chromium-foundation.yml` | CI pin check, tests, build and smoke test |
 | `patches/chromium/` | Reviewed Chromium patch staging area |
 | `secant/BUILD.gn` | Product-layer GN entry point |
 | `secant/app/` | Browser bootstrap skeleton |
@@ -74,19 +75,17 @@ The tab model currently covers create, close, move, activate, pin, essential
 kind, folder metadata, workspace filtering and empty-title fallback. It has no
 Chromium dependency yet; the adapter over `TabStripModel` is the next step.
 
-## Blocker
+## CI build runner
 
 A Chromium checkout plus build needs roughly **150 GiB** free. This sandbox has
 **7.2 GiB** on `/data` and **9.5 GiB** on `/`. It can run source review, model
 tests, pin validation and script checks, but it cannot fetch or build Chromium.
 
-The Phase 1 build gate requires a runner with at least 150 GiB free, a warm
-Chromium build cache and the platform toolchains. That runner must run:
-
-```sh
-python3 build/chromium/sync.py --fetch
-python3 build/chromium/sync.py --build
-```
+`.github/workflows/chromium-foundation.yml` moves the build gate to GitHub
+Actions on `blacksmith-32vcpu-ubuntu-2404` (32 vCPU, 128 GiB RAM, 1.5 TiB disk).
+It installs `depot_tools`, verifies the pin, runs the tab model tests, fetches
+Chromium, installs build dependencies, builds `chrome` and `secant`, and runs
+`chrome --version`. The first workflow run is pending.
 
 ## Next steps
 
@@ -96,5 +95,6 @@ python3 build/chromium/sync.py --build
    dependency-free model tests as the behavior specification.
 3. Create the native window plus `views::WebView` chrome host.
 4. Add the `secant://` WebUI scheme, CSP and Mojo interface.
-5. Add CI for pin check, model tests, Chromium sync/build and a smoke test.
+5. Complete the first Chromium CI build and smoke test, then capture the run
+   URL in the migration log.
 6. Capture startup, input latency, memory and accessibility baselines.

@@ -111,7 +111,7 @@ def fetch(dest, force, skip_disk_check):
     copy_secant(src)
 
 
-def build(dest):
+def build(dest, targets):
     require_tool("gn")
     require_tool("autoninja")
     src = dest / "src"
@@ -119,7 +119,7 @@ def build(dest):
         raise SystemExit(f"no Chromium checkout at {src}")
     args = ARGS_PATH.read_text(encoding="utf-8")
     run(["gn", "gen", "out/secant-dev", f"--args={args}"], src)
-    run(["autoninja", "-C", "out/secant-dev", "secant"], src)
+    run(["autoninja", "-C", "out/secant-dev", *targets], src)
 
 
 def main():
@@ -128,6 +128,7 @@ def main():
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--fetch", action="store_true")
     parser.add_argument("--build", action="store_true")
+    parser.add_argument("--target", action="append", dest="targets")
     parser.add_argument("--force", action="store_true")
     parser.add_argument("--skip-disk-check", action="store_true")
     args = parser.parse_args()
@@ -139,7 +140,7 @@ def main():
     if args.fetch:
         fetch(args.dest, args.force, args.skip_disk_check)
     if args.build:
-        build(args.dest)
+        build(args.dest, args.targets or ["chrome", "secant"])
     return 0
 
 
