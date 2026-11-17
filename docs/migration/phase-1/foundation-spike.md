@@ -86,7 +86,9 @@ tests, pin validation and script checks, but it cannot fetch or build Chromium.
 Actions on `blacksmith-32vcpu-ubuntu-2404` (32 vCPU, 128 GiB RAM, 1.5 TiB disk).
 It installs `depot_tools`, verifies the pin, runs the tab model tests, fetches
 Chromium, installs build dependencies, builds `chrome` and `secant_product`,
-and runs `chrome --version`. The first workflow run is pending.
+and runs `chrome --version`. Tag fetches and dependency sync retry transient
+Googlesource `429` responses; `gclient sync` uses four SCM jobs. The first
+successful build run is pending.
 
 ## Next steps
 

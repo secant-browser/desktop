@@ -35,7 +35,9 @@ python3 build/chromium/sync.py --build
 `--fetch` creates `/data/workspace/chromium` unless `SECANT_CHROMIUM_DIR` or
 `--dest` is set, fetches a shallow Chromium checkout, checks out the pinned
 release tag, syncs dependencies, applies `patches/chromium/*.patch`, and copies
-`secant/` to `src/secant`.
+`secant/` to `src/secant`. Tag fetches and dependency sync retry transient
+Googlesource `429` responses, and `gclient sync` runs with four SCM jobs to
+avoid rate limits.
 
 `--build` runs `gn gen out/secant-dev` with `args/linux-dev.gn` and builds
 `chrome` and `secant_product` by default. Override the targets with repeatable

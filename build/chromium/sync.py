@@ -7,6 +7,7 @@ import shlex
 import shutil
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -41,9 +42,23 @@ def require_tool(name):
         raise SystemExit(f"required tool not found: {name}")
 
 
-def run(command, cwd):
-    print(shlex.join(str(part) for part in command), flush=True)
-    subprocess.run([str(part) for part in command], cwd=cwd, check=True)
+def run(command, cwd, attempts=1, delay=10):
+    printable = shlex.join(str(part) for part in command)
+    for attempt in range(1, attempts + 1):
+        print(printable, flush=True)
+        try:
+            subprocess.run([str(part) for part in command], cwd=cwd, check=True)
+            return
+        except subprocess.CalledProcessError:
+            if attempt == attempts:
+                raise
+            print(
+                f"command failed (attempt {attempt}/{attempts}); "
+                f"retrying in {delay}s",
+                flush=True,
+            )
+            time.sleep(delay)
+            delay = min(delay * 2, 120)
 
 
 def check(dest, skip_disk_check):
@@ -90,7 +105,12 @@ def fetch(dest, force, skip_disk_check):
     run(["fetch", "--nohooks", "--no-history", "chromium"], dest)
 
     src = dest / "src"
-    run(["git", "fetch", "--depth", "1", "origin", f"refs/tags/{pin['version']}"], src)
+    run(
+        ["git", "fetch", "--depth", "1", "origin", f"refs/tags/{pin['version']}"],
+        src,
+        attempts=3,
+        delay=15,
+    )
     run(["git", "checkout", "--detach", pin["commit"]], src)
     run(
         [
@@ -99,13 +119,17 @@ def fetch(dest, force, skip_disk_check):
             "--no-history",
             "--shallow",
             "--delete_unversioned_trees",
+            "--jobs",
+            "4",
             "--revision",
             f"src@{pin['commit']}",
             "-D",
         ],
         dest,
+        attempts=4,
+        delay=20,
     )
-    run(["gclient", "runhooks"], dest)
+    run(["gclient", "runhooks"], dest, attempts=2, delay=20)
 
     apply_patches(src)
     copy_secant(src)
