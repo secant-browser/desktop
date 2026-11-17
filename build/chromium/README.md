@@ -38,16 +38,16 @@ release tag, syncs dependencies, applies `patches/chromium/*.patch`, and copies
 `secant/` to `src/secant`.
 
 `--build` runs `gn gen out/secant-dev` with `args/linux-dev.gn` and builds
-`chrome` and `secant` by default. Override the targets with repeatable
+`chrome` and `secant_product` by default. Override the targets with repeatable
 `--target` flags:
 
 ```sh
-python3 build/chromium/sync.py --build --target chrome --target secant
+python3 build/chromium/sync.py --build --target chrome --target secant_product
 ```
 
-The `chrome` target proves the Chromium browser build. The `secant` target
-compiles the product-layer skeleton. A Secant-branded executable still requires
-the first reviewed Chromium patch and the app bootstrap.
+The `chrome` target proves the Chromium browser build. The `secant_product`
+target builds the product-layer skeleton through `//secant`. A Secant-branded
+executable still requires the app bootstrap and the browser wiring patch.
 
 ## Validation without Chromium
 
@@ -60,7 +60,7 @@ build/chromium/check_model.sh
 ## CI
 
 `.github/workflows/chromium-foundation.yml` runs the pin check, tab model tests,
-Chromium fetch, build dependency install, `chrome` + `secant` build and
+Chromium fetch, build dependency install, `chrome` + `secant_product` build and
 `chrome --version` smoke test. It uses `blacksmith-32vcpu-ubuntu-2404`
 (32 vCPU, 128 GiB RAM, 1.5 TiB disk), which satisfies the 150 GiB requirement.
 

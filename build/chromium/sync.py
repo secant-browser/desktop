@@ -140,7 +140,7 @@ def main():
     if args.fetch:
         fetch(args.dest, args.force, args.skip_disk_check)
     if args.build:
-        build(args.dest, args.targets or ["chrome", "secant"])
+        build(args.dest, args.targets or ["chrome", "secant_product"])
     return 0
 
 

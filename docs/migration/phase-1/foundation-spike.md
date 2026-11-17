@@ -54,6 +54,7 @@ is the machine-readable source of truth.
 | `build/chromium/args/linux-dev.gn` | Linux development GN args |
 | `build/chromium/check_model.sh` | Dependency-free model test |
 | `.github/workflows/chromium-foundation.yml` | CI pin check, tests, build and smoke test |
+| `patches/chromium/0001-build-expose-secant-target.patch` | Adds the `secant_product` root group |
 | `patches/chromium/` | Reviewed Chromium patch staging area |
 | `secant/BUILD.gn` | Product-layer GN entry point |
 | `secant/app/` | Browser bootstrap skeleton |
@@ -84,13 +85,13 @@ tests, pin validation and script checks, but it cannot fetch or build Chromium.
 `.github/workflows/chromium-foundation.yml` moves the build gate to GitHub
 Actions on `blacksmith-32vcpu-ubuntu-2404` (32 vCPU, 128 GiB RAM, 1.5 TiB disk).
 It installs `depot_tools`, verifies the pin, runs the tab model tests, fetches
-Chromium, installs build dependencies, builds `chrome` and `secant`, and runs
-`chrome --version`. The first workflow run is pending.
+Chromium, installs build dependencies, builds `chrome` and `secant_product`,
+and runs `chrome --version`. The first workflow run is pending.
 
 ## Next steps
 
-1. Add the first reviewed Chromium patch that wires `//secant` into the browser
-   executable and adds `SecantBrowserMainParts`.
+1. Wire `secant_product` into the browser executable and add
+   `SecantBrowserMainParts`.
 2. Implement `SecantTabModel` as an adapter over `TabStripModel` and keep the
    dependency-free model tests as the behavior specification.
 3. Create the native window plus `views::WebView` chrome host.

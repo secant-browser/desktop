@@ -25,7 +25,7 @@ jobs:
     timeout-minutes: 360
     env:
       DEPOT_TOOLS: ${{ github.workspace }}/.depot_tools
-      CHROMIUM_DIR: ${{ github.workspace }}/../chromium
+      CHROMIUM_DIR: ${{ runner.temp }}/chromium
     steps:
       - name: Checkout
         uses: actions/checkout@v5

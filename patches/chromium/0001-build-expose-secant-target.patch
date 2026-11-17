@@ -1,0 +1,18 @@
+diff --git a/BUILD.gn b/BUILD.gn
+index 516aa805059c1af3e03dff6271a8a95626cfea97..ae63faab4f23a3b9c02743d4d0988912a77394a5 100644
+--- a/BUILD.gn
++++ b/BUILD.gn
+@@ -1650,6 +1650,13 @@
+   }
+ }
+ 
++# Secant product layer. This target is deliberately separate from the
++# upstream default build graph so Chromium builds do not depend on it unless
++# it is requested explicitly.
++group("secant_product") {
++  deps = [ "//secant" ]
++}
++
+ if (use_remoteexec && target_os != "chromeos" && rbe_exec_root != "/") {
+   # Different nesting levels technically work, but cache hits are basically
+   # zero. for `target_os="chromeos" rbe_exec_root="/"` is used for chromeos
