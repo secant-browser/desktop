@@ -1,12 +1,56 @@
+source_set("tab_state") {
+  sources = [
+    "tab_state.cc",
+    "tab_state.h",
+  ]
+}
+
 source_set("browser") {
   sources = [
     "tab_model.cc",
     "tab_model.h",
   ]
+  deps = [
+    ":tab_state",
+    "//base",
+    "//chrome/browser/profiles:profile",
+    "//chrome/browser/ui/tabs:tabs",
+    "//components/tabs:public",
+    "//content/public/browser",
+    "//url",
+  ]
 }
 
-executable("tab_model_unittest") {
+source_set("main_parts") {
+  sources = [
+    "secant_browser_main_parts.cc",
+    "secant_browser_main_parts.h",
+  ]
+  deps = [
+    "//base",
+    "//chrome/browser:main_extra_parts",
+  ]
+}
+
+executable("tab_state_unittest") {
+  testonly = true
+  sources = [ "tab_state_unittest.cc" ]
+  deps = [ ":tab_state" ]
+}
+
+executable("secant_unittests") {
   testonly = true
   sources = [ "tab_model_unittest.cc" ]
-  deps = [ ":browser" ]
+  deps = [
+    ":browser",
+    "//base/test:run_all_unittests",
+    "//base/test:test_support",
+    "//chrome/browser/ui/tabs:test_support",
+    "//chrome/test/base:testing_browser_process_impl",
+    "//chrome/test/base:testing_profile_impl",
+    "//components/tabs:public",
+    "//content/public/browser",
+    "//content/test:test_support",
+    "//testing/gtest",
+  ]
 }

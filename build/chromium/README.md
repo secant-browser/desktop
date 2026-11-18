@@ -45,13 +45,14 @@ avoid rate limits.
 
 ```sh
 python3 build/chromium/sync.py --build --target chrome --target secant_product
+python3 build/chromium/sync.py --build --target secant/browser:secant_unittests
 ```
 
 The `chrome` target proves the Chromium browser build. The `secant_product`
 target builds the product-layer skeleton through `//secant`. CI builds
 `secant_product` first so product-layer compile errors fail before the full
-browser build. A Secant-branded executable still requires the app bootstrap and
-the browser wiring patch.
+browser build, then builds and runs `secant_unittests`. A Secant-branded
+executable still requires the app bootstrap and the browser wiring patch.
 
 ## Validation without Chromium
 
@@ -63,9 +64,10 @@ build/chromium/check_model.sh
 
 ## CI
 
-`.github/workflows/chromium-foundation.yml` runs the pin check, tab model tests,
-Chromium fetch, build dependency install, `secant_product` compile, `chrome`
-build and `chrome --version` smoke test. It uses
+`.github/workflows/chromium-foundation.yml` runs the pin check, dependency-free
+tab state tests, Chromium fetch, build dependency install, `secant_product`
+compile, `chrome` build, `secant_unittests`, `chrome --version`, and a headless
+startup probe that checks the `SecantBrowserMainParts` log marker. It uses
 `blacksmith-32vcpu-ubuntu-2404` (32 vCPU, 128 GiB RAM, 1.5 TiB disk), which
 satisfies the 150 GiB requirement.
 

@@ -1,0 +1,71 @@
+#ifndef SECANT_BROWSER_TAB_STATE_H_
+#define SECANT_BROWSER_TAB_STATE_H_
+
+#include <cstddef>
+#include <cstdint>
+#include <optional>
+#include <string>
+#include <vector>
+
+namespace secant {
+
+using TabId = std::uint64_t;
+using WorkspaceId = std::uint64_t;
+using FolderId = std::uint64_t;
+
+enum class TabKind {
+  kNormal,
+  kPinned,
+  kEssential,
+  kSplit,
+  kGlance,
+};
+
+struct Tab {
+  TabId id = 0;
+  WorkspaceId workspace_id = 0;
+  std::optional<FolderId> folder_id;
+  std::string url;
+  std::string title;
+  TabKind kind = TabKind::kNormal;
+  bool active = false;
+};
+
+// Dependency-free tab metadata and ordering. SecantTabModel owns one of these
+// and keeps it synchronized with Chromium's TabStripModel.
+class SecantTabState {
+ public:
+  SecantTabState();
+  ~SecantTabState();
+  SecantTabState(const SecantTabState&) = delete;
+  SecantTabState& operator=(const SecantTabState&) = delete;
+
+  TabId CreateTab(WorkspaceId workspace_id, std::string url, std::string title);
+  bool CloseTab(TabId id);
+  bool MoveTab(TabId id, std::size_t index);
+  bool ActivateTab(TabId id);
+  bool SetKind(TabId id, TabKind kind);
+  bool SetFolder(TabId id, std::optional<FolderId> folder_id);
+
+  void SetActiveTab(std::optional<TabId> id);
+  void SetTabInfo(TabId id, std::string url, std::string title);
+  void Reorder(const std::vector<TabId>& order);
+
+  const std::vector<Tab>& tabs() const { return tabs_; }
+  const Tab* GetTab(TabId id) const;
+  Tab* MutableTab(TabId id);
+  std::vector<const Tab*> TabsForWorkspace(WorkspaceId workspace_id) const;
+  std::optional<TabId> active_tab_id() const { return active_tab_id_; }
+
+ private:
+  std::vector<Tab>::iterator Find(TabId id);
+  std::vector<Tab>::const_iterator Find(TabId id) const;
+
+  TabId next_id_ = 1;
+  std::vector<Tab> tabs_;
+  std::optional<TabId> active_tab_id_;
+};
+
+}  // namespace secant
+
+#endif  // SECANT_BROWSER_TAB_STATE_H_

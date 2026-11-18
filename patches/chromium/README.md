@@ -15,6 +15,7 @@ before copying `secant/` into `src/secant`.
 | Patch | Owner | Reason | Upstream plan |
 | --- | --- | --- | --- |
 | `0001-build-expose-secant-target.patch` | Secant browser team | Adds a non-default `secant_product` root group so GN loads and can build `//secant` | Fold into the final browser target once `//secant` is wired into `//chrome`; no upstream intent |
+| `0002-wire-secant-browser-main-parts.patch` | Secant browser team | Links `//secant/browser:main_parts` into `//chrome/browser:core` and registers `SecantBrowserMainParts` in the browser process | Replace with the final app bootstrap once `//secant/app` owns the executable; no upstream intent |
 
 ## Naming
 

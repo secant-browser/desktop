@@ -6,8 +6,8 @@ out="$(mktemp -d)"
 trap 'rm -rf "$out"' EXIT
 
 c++ -std=c++20 -Wall -Wextra -Werror -I"$repo_root" \
-  "$repo_root/secant/browser/tab_model.cc" \
-  "$repo_root/secant/browser/tab_model_unittest.cc" \
-  -o "$out/tab_model_unittest"
+  "$repo_root/secant/browser/tab_state.cc" \
+  "$repo_root/secant/browser/tab_state_unittest.cc" \
+  -o "$out/tab_state_unittest"
 
-"$out/tab_model_unittest"
+"$out/tab_state_unittest"

@@ -14,8 +14,8 @@ migration and platform code. It is not a replacement for `//chrome`.
 
 | Path | Purpose | State |
 | --- | --- | --- |
-| `app/` | Browser bootstrap and `SecantBrowserMainParts` | Skeleton |
-| `browser/` | Tab, workspace, session and product model | Tab model prototype |
+| `app/` | Browser bootstrap | Skeleton |
+| `browser/` | Tab adapter, `SecantBrowserMainParts`, workspace/session model | Tab adapter + startup hook |
 | `webui/` | Privileged WebUI chrome and Mojo boundary | Skeleton |
 
 ## Rules

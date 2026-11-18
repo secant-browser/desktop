@@ -66,12 +66,32 @@ jobs:
           python3 build/chromium/sync.py --build --dest "$CHROMIUM_DIR" \
             --target secant_product
 
+      - name: Build Secant unit tests
+        run: |
+          python3 build/chromium/sync.py --build --dest "$CHROMIUM_DIR" \
+            --target secant/browser:secant_unittests
+
+      - name: Run Secant unit tests
+        run: |
+          "$CHROMIUM_DIR/src/out/secant-dev/secant_unittests"
+
       - name: Build Chromium and Secant
         run: python3 build/chromium/sync.py --build --dest "$CHROMIUM_DIR"
 
       - name: Smoke test
         run: |
           "$CHROMIUM_DIR/src/out/secant-dev/chrome" --version
+
+      - name: Secant startup smoke test
+        run: |
+          timeout 120 "$CHROMIUM_DIR/src/out/secant-dev/chrome" \
+            --headless=new --disable-gpu --no-first-run \
+            --user-data-dir=/tmp/secant-profile \
+            --enable-logging=stderr --v=1 \
+            --dump-dom about:blank \
+            > /tmp/secant-dom.html 2> /tmp/secant-chrome.log
+          grep -F "SecantBrowserMainParts::PreMainMessageLoopRun" \
+            /tmp/secant-chrome.log
 
       - name: Upload build metadata
         if: always()
