@@ -2,7 +2,6 @@ group("secant") {
   deps = [
     "//secant/app",
     "//secant/browser",
-    "//secant/browser:main_parts",
     "//secant/webui",
   ]
 }

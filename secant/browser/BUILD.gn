@@ -5,7 +5,7 @@ source_set("tab_state") {
   ]
 }
 
-source_set("browser") {
+source_set("tab_model") {
   sources = [
     "tab_model.cc",
     "tab_model.h",
@@ -18,6 +18,13 @@ source_set("browser") {
     "//components/tabs:public",
     "//content/public/browser",
     "//url",
+  ]
+}
+
+group("browser") {
+  deps = [
+    ":main_parts",
+    ":tab_state",
   ]
 }
 
@@ -42,7 +49,7 @@ executable("secant_unittests") {
   testonly = true
   sources = [ "tab_model_unittest.cc" ]
   deps = [
-    ":browser",
+    ":tab_model",
     "//base/test:run_all_unittests",
     "//base/test:test_support",
     "//chrome/browser/ui/tabs:test_support",
